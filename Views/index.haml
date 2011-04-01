@@ -1,0 +1,12 @@
+!!!
+%html
+	%head
+		%title WebKeno
+	%body
+		%strong Keno
+		%table 
+			-(0..7).each do |row| 
+				%tr
+				-(0..9).each do |cell|
+					%td= (row * 10 + cell + 1)
+
