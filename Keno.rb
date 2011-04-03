@@ -48,7 +48,7 @@ class Keno
   end
   
   def start_race
-    races[@current_index] =  Race.new
+    race = races[@current_index] =  Race.new
     @current_index += 1
     race
   end

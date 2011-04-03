@@ -1,12 +1,21 @@
 !!!
+
 %html
 	%head
 		%title WebKeno
+		%link{:rel => 'stylesheet', :type=>"txt/css", :href => "/keno.css"}
+		%script{:type => "text/javascript", :src => "http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"}
+		%script{:type => "text/javascript", :src => "/scripts/keno.js"}
+		:javascript
+			$(function() {
+				reveal_winners(#{@race.winners})
+			});
 	%body
 		%strong Keno
 		%table 
 			-(0..7).each do |row| 
 				%tr
 				-(0..9).each do |cell|
-					%td= (row * 10 + cell + 1)
-
+					%td 
+						= (row * 10 + cell + 1)
+						%input(type='checkbox' type='hidden')
