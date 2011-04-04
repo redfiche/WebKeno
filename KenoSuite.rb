@@ -1,4 +1,4 @@
-require '~/keno/Keno.rb'
+require './Keno.rb'
 require 'minitest/autorun'
 require 'set'
 
@@ -48,7 +48,7 @@ class TestTicket < MiniTest::Unit::TestCase
   def test_all_payouts
     #puts "#{ticket_numbers}"
     get_spots do |spot_data| 
-      ticket = Ticket.new @ticket_numbers.take(spot_data[:spot_count]), [0]
+      ticket = Ticket.new "user", @ticket_numbers.take(spot_data[:spot_count]), [0]
       race = Race.new
       race.winners = spot_data[:spots]
       payout = ticket.get_payout(race)

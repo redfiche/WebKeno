@@ -11,6 +11,5 @@ get '/' do
 end
 
 get '/keno.css' do
-  puts 'getting css'
   scss :keno
 end

@@ -12,7 +12,7 @@ class Race
 end
 
 class Ticket
-  attr_accessor :choices, :races, :purchase_time
+  attr_accessor :choices, :races, :purchase_time, :user_name
   @@payouts = {
     1 => {1 => 3},
     2 => {1 => 1, 2 => 12},
@@ -26,7 +26,8 @@ class Ticket
     10 => {4 => 1, 5 => 2, 6 => 6, 7 => 50, 8 => 580, 9 => 10000, 10 => 500000}
   }
     
-  def initialize(choices, races)
+  def initialize(user, choices, races)
+    @user_name = user
     @choices = choices
     @races = races
     @purchase_time = DateTime.now
