@@ -41,11 +41,12 @@ class Ticket
 end
 
 class Keno
-  attr_accessor :races
-
+  attr_accessor :races, :tickets
+ 
   def initialize
     @races = {}
     @current_index = 0
+    @tickets = []
   end
   
   def start_race
@@ -57,8 +58,12 @@ class Keno
   def check_ticket(ticket)
     payout = 0
     ticket.races.each do |r| 
-      payout += ticket.get_payout @races[r]
+      payout += ticket.get_payout @races[r] unless @races[r].nil?
     end
     payout
   end 
+  
+  def add_ticket(ticket)
+    @tickets.push ticket
+  end
 end

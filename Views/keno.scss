@@ -8,14 +8,45 @@ table, td
  td
 {
 	color:black;
-	background-color:hsl(36, 93%, 54%);
+	background-color:hsl(210, 43%, 57%);
 	padding:20px;
 	font-size:xx-large;
 	font-family:impact;
 	margin:0;
 	text-align:center;
+	
+	input
+	{
+		display: none;
+	}
 }
 .chosen
 {
-	background-color:yellow;
+	background-color:hsl(59, 94%, 69%);
 }
+.submit
+{
+	height:50px;
+	width:150px;
+	background-color:red;
+	font-size:xx-large;
+	font-family:impact;
+	border-radius: 10px;
+}
+
+.validation
+{
+	color:red;
+	font-size:large;
+}
+
+.inputSpan
+{
+	display:block;
+	padding-bottom:30px;
+	input
+	{
+		margin-right:20px;
+	}
+}
+

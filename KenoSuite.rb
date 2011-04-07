@@ -1,6 +1,7 @@
 require './Keno.rb'
 require 'minitest/autorun'
 require 'set'
+require 'json'
 
 class TestRace < MiniTest::Unit::TestCase
   def setup
@@ -62,7 +63,7 @@ class TestTicket < MiniTest::Unit::TestCase
   def test_invalid_ticket
     race = Race.new
     race.start = DateTime.now - 10
-    ticket = Ticket.new [8,9,0], [0]
+    ticket = Ticket.new "user", [8,9,0], [0]
     assert_raises(RuntimeError) {ticket.get_payout(race)}
   end
     
@@ -85,6 +86,26 @@ class TestKeno < MiniTest::Unit::TestCase
     assert_equal 3, k.check_ticket(mock)
     
     mock.verify
+  end
+  
+  def test_equals
+    k = Keno.new
+    j = Keno.new
+    r = Race.new
+    ticket = Ticket.new "user", [8,9,0], [0]
+    k.races = [r]
+    j.races = [r]
+    k.tickets = [ticket]
+    j.tickets = [ticket]
+    assert_equal j, k
+  end
+  
+  def test_to_json
+    k = Keno.new
+    ticket = Ticket.new "user", [8,9,0], [0]
+    k.add_ticket ticket
+    k.start_race
+    assert_equal k, JSON.parse(k.to_json)
   end
 end
 

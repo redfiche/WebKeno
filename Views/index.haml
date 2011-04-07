@@ -5,17 +5,32 @@
 		%title WebKeno
 		%link{:rel => 'stylesheet', :type=>"text/css", :href => "/keno.css"}
 		%script{:type => "text/javascript", :src => "http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"}
-		%script{:type => "text/javascript", :src => "/scripts/keno.js"}
-		:javascript
-			$(function() {
-				reveal_winners(#{@race.winners})
-			});
+		-if @new_ticket
+			%script{:type => "text/javascript", :src => "/scripts/newTicket.js"}
+		-else
+			%script{:type => "text/javascript", :src => "/scripts/keno.js"}
+			:javascript
+				$(function() {
+					reveal_winners(#{@race.winners})
+					$('#submitButton').attr('style', 'display:none');
+				});
 	%body
-		%strong Keno
+		%H1
+			%strong Keno
+		-if @new_ticket
+			%div(id='validation' class='validation')
+			%span(class='inputSpan')
+				Name:
+				%input(name='user' id='name') 
+				Number of races:
+				%input(name='numberOfRaces' id='numberOfRaces')
+		-else
+			%a(href='/newticket') Create a ticket
 		%table 
 			-(0..7).each do |row| 
 				%tr
 				-(0..9).each do |cell|
 					%td 
 						= (row * 10 + cell + 1)
-						%input(type='checkbox' type='hidden')
+						%input(type='checkbox' name = 'cells' id = '#{row}#{cell}')
+		%input(type='button' value='Save' class='submit' id='submitButton')
