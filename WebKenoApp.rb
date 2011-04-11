@@ -2,29 +2,30 @@ require 'sinatra'
 require 'haml'
 require 'sass'
 require './keno.rb'
-require 'json'
+require 'active_support'
 require 'redis'
+require 'yaml'
 
 @@redis = Redis.new(:host => 'localhost', :port => 6379)
 
 def get_keno
-  keno_json = @@redis.get "keno"
-  unless keno_json.nil?
-    keno = JSON.parse keno_json
+  serialized_keno = @@redis.get "keno"
+  unless serialized_keno.nil?
+    keno = YAML::load serialized_keno
   else
     keno = Keno.new
   end
+  File.open("keno.log", 'a') {|f| f.write("#{Time.now} #{keno.inspect} \n")}
   keno
 end
 
 def set_keno(keno)
-  data = keno.to_json
+  data = YAML::dump keno
   @@redis.set "keno", data
 end 
 
 get '/' do
   keno = get_keno
-  File.open("keno.log", 'a') {|f| f.write("#{Time.now} #{keno.inspect} \n")}
   @race = keno.start_race
   set_keno keno
   @new_ticket = false
@@ -50,13 +51,13 @@ end
 
 get '/status' do
   keno = get_keno
-  File.open("keno.log", 'a') {|f| f.write("#{Time.now} #{keno.inspect} \n")}
-  @race_results = keno.races.inject([]) do |results, race| 
-    results.push("Start time: #{race.start} Number: #{race.number} Winners: #{race.winners}")
+  @race_results = keno.races.map do |race| 
+    File.open("keno.log", 'a') {|f| f.write("#{Time.now} #{race.inspect}")}
+    "Start time: #{race.start} Number: #{race.number} Winners: #{race.winners}"
   end
   
-  @ticket_results = keno.tickets.inject([]) do |results, ticket|
-    results.push("Name: #{ticket.user_name} Races: #{ticket.races} Choices: #{ticket.choices}")
+  @ticket_results = keno.tickets.map do |ticket|
+    "Name: #{ticket.user_name} Races: #{ticket.races} Choices: #{ticket.choices}"
   end
   
   haml :status

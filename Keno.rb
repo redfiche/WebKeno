@@ -42,15 +42,17 @@ end
 
 class Keno
   attr_accessor :races, :tickets
+  
  
-  def initialize
-    @races = {}
+  def initialize()
+    @races = []
     @current_index = 0
     @tickets = []
   end
   
   def start_race
-    race = races[@current_index] =  Race.new
+    race = Race.new
+    races[@current_index] = race
     @current_index += 1
     race
   end
