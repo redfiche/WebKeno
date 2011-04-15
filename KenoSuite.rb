@@ -16,10 +16,6 @@ class TestRace < MiniTest::Unit::TestCase
     assert_equal @race.winners.count, @race.winners.to_set.size
   end
   
-  def test_equals
-    d = Date.new
-    winners = [12,14,16,24,33,54,65,69,]
-  end
 end
 
 class Race
@@ -92,26 +88,7 @@ class TestKeno < MiniTest::Unit::TestCase
     
     mock.verify
   end
-  
-  def test_equals
-    k = Keno.new
-    j = Keno.new
-    r = Race.new
-    ticket = Ticket.new "user", [8,9,0], [0]
-    k.races = [r]
-    j.races = [r]
-    k.tickets = [ticket]
-    j.tickets = [ticket]
-    assert_equal j, k
-  end
-  
-  def test_to_json
-    k = Keno.new
-    ticket = Ticket.new "user", [8,9,0], [0]
-    k.add_ticket ticket
-    k.start_race
-    assert_equal k, JSON.parse(k.to_json)
-  end
+
 end
 
     

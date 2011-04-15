@@ -11,7 +11,7 @@ class Race
   @@next_race_number = 1
   attr_accessor :winners, :start, :number, :chosen
   def initialize (number = 1)
-    @winners = (1..80).to_a.shuffle![0..20]
+    @winners = (1..80).to_a.shuffle![0..19]
     @start = DateTime.now
     @number = number
     @chosen = [];
