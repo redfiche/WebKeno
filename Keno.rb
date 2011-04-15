@@ -1,13 +1,25 @@
 require 'date'
 require 'set'
 
+class Logger
+  def log(message)
+    File.open("keno.log", 'a') {|f| f.write("#{DateTime.now} #{message} \n\n\n")}
+  end
+end
+
 class Race
   @@next_race_number = 1
-  attr_accessor :winners, :start, :number
+  attr_accessor :winners, :start, :number, :chosen
   def initialize (number = 1)
-    @winners = (1..80).to_a.shuffle![1..20]
+    @winners = (1..80).to_a.shuffle![0..20]
     @start = DateTime.now
     @number = number
+    @chosen = [];
+  end
+  
+  def get_next()
+    @chosen.push @winners[chosen.length] unless @chosen.size() == 20
+    @chosen.last
   end
 end
 
@@ -38,22 +50,34 @@ class Ticket
     correct = race.winners.to_set & @choices.to_set
     @@payouts[@choices.count][correct.size]
   end
+  
 end
 
 class Keno
-  attr_accessor :races, :tickets
-  
+  attr_accessor :races, :tickets, :next_race
  
-  def initialize()
+  def initialize
     @races = []
-    @current_index = 0
+    @next_race = 0
     @tickets = []
+    @logger = Logger.new
   end
   
+  def get_current_race
+    @logger.log "races length is #{races.length}"
+    if races.length > 0 
+       return races.last 
+    end
+    @logger.log "starting race"
+    race = start_race
+    race
+  end
+  
+  
   def start_race
-    race = Race.new
-    races[@current_index] = race
-    @current_index += 1
+    race = Race.new @next_race
+    races[@next_race] = race
+    @next_race += 1
     race
   end
   
@@ -68,4 +92,5 @@ class Keno
   def add_ticket(ticket)
     @tickets.push ticket
   end
+  
 end

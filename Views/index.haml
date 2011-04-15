@@ -6,14 +6,10 @@
 		%link{:rel => 'stylesheet', :type=>"text/css", :href => "/keno.css"}
 		%script{:type => "text/javascript", :src => "http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"}
 		-if @new_ticket
-			%script{:type => "text/javascript", :src => "/scripts/newTicket.js"}
+			%script{:type => "text/javascript", :src => "/newTicket.js"}
 		-else
-			%script{:type => "text/javascript", :src => "/scripts/keno.js"}
-			:javascript
-				$(function() {
-					reveal_winners(#{@race.winners})
-					$('#submitButton').attr('style', 'display:none');
-				});
+			%script{:type => "text/javascript", :src => "/keno.js"}
+
 	%body
 		%H1
 			%strong Keno
@@ -32,5 +28,4 @@
 				-(0..9).each do |cell|
 					%td 
 						= (row * 10 + cell + 1)
-						%input(type='checkbox' name = 'cells' id = '#{row}#{cell}')
 		%input(type='button' value='Save' class='submit' id='submitButton')

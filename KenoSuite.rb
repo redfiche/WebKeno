@@ -15,6 +15,11 @@ class TestRace < MiniTest::Unit::TestCase
   def test_that_there_are_no_duplicates
     assert_equal @race.winners.count, @race.winners.to_set.size
   end
+  
+  def test_equals
+    d = Date.new
+    winners = [12,14,16,24,33,54,65,69,]
+  end
 end
 
 class Race
