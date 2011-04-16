@@ -3,7 +3,7 @@ numberClicked = (event) ->
 	if $(td).hasClass('chosen')
 		$(td).removeClass('chosen')
 	else
-		if $(':checked').size() >= 10
+		if $('.chosen').size() >= 10
 			alert 'No more than ten numbers may be selected'
 		else
 			$(td).addClass('chosen')
