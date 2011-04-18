@@ -45,7 +45,7 @@ get '/next_winner.json' do
   next_choice = race.get_next()
   set_keno keno
   content_type :json
-  { :chosen => race.chosen, :current => next_choice}.to_json
+  { :race_number => race.number, :chosen => race.chosen, :current => next_choice}.to_json
 end
 
 get '/next_race' do

@@ -14,36 +14,36 @@
 		%H1
 			%strong Keno
 		%div(id='validation' class='validation')
-		%table
-			%tr
-				%td(style="vertical-align: top; width: 175px")
-					-if @new_ticket
-						%div
-							Name:
-							%br
-							%input(name='user' id='name') 
+		%div
+			%span(class='column-one' style="vertical-align: top; width: 175px")
+				-if @new_ticket
+					%div
+						Name:
 						%br
-						%div
-							Number of races:
-							%br
-							%input(name='numberOfRaces' id='numberOfRaces')
+						%input(name='user' id='name') 
+					%br
+					%div
+						Number of races:
 						%br
-						%input(type='button' value='Save' class='submit' id='submitButton')
-					-else
-						%h3
-							%a(href='/newticket') Create a ticket
-						%br
-						%div(id='status')
-							Current Race #
-							%span(id='race-number')
-						%div(id='timer-div')
-							Next race in: 
-							%span(id='time')
-				%td
-					%table(class='keno-board') 
-						-(0..7).each do |row| 
-							%tr
-							-(0..9).each do |cell|
-								%td(class='number-cell') 
-									= (row * 10 + cell + 1)
+						%input(name='numberOfRaces' id='numberOfRaces')
+					%br
+					%input(type='button' value='Save' class='submit' id='submitButton')
+				-else
+					%h3
+						%a(href='/newticket') Create a ticket
+					%br
+					%div(id='status' class='label')
+						Current Race #
+						%span(id='race-number' class='status-detail')
+					%div(id='timer-div' class='label')
+						Next race in: 
+						%span(id='time'  class='status-detail')
+							0
+			%span(class='column-two')
+				%table(class='keno-board') 
+					-(0..7).each do |row| 
+						%tr
+						-(0..9).each do |cell|
+							%td(class='number-cell') 
+								= (row * 10 + cell + 1)
 					

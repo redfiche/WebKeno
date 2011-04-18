@@ -1,4 +1,6 @@
 interval = {}
+nextRace = {}
+time = 0
 
 color = (choice) ->
 	$('.keno-board').find('td:eq(' + (choice - 1) + ')').addClass('chosen')
@@ -6,11 +8,22 @@ color = (choice) ->
 startRace = () ->
 	$('td').removeClass('chosen')
 	$.get('/next_race', onLoad)
+	
+countdown = () ->
+	$('#time').html(time)
+	if (time == 0)
+		clearInterval(nextRace)
+		startRace()
+	else
+		time -= 1
+
 
 processChosen = (status) ->
+	$('#race-number').html(status.race_number);
 	if status.chosen.length == 20
 		clearInterval(interval)
-		setTimeout startRace, 10000
+		time = 45;
+		nextRace = setInterval(countdown, 1000)
 	else
 		color choice for choice in status.chosen
 	
