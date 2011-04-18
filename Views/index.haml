@@ -30,7 +30,15 @@
 						%br
 						%input(type='button' value='Save' class='submit' id='submitButton')
 					-else
-						%a(href='/newticket') Create a ticket
+						%h3
+							%a(href='/newticket') Create a ticket
+						%br
+						%div(id='status')
+							Current Race #
+							%span(id='race-number')
+						%div(id='timer-div')
+							Next race in: 
+							%span(id='time')
 				%td
 					%table(class='keno-board') 
 						-(0..7).each do |row| 

@@ -1,7 +1,7 @@
 interval = {}
 
 color = (choice) ->
-	$('td:eq(' + (choice - 1) + ')').addClass('chosen')
+	$('.keno-board').find('td:eq(' + (choice - 1) + ')').addClass('chosen')
 	
 startRace = () ->
 	$('td').removeClass('chosen')
