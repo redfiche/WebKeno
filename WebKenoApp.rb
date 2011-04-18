@@ -82,7 +82,8 @@ get '/status' do
   end
   
   @ticket_results = keno.tickets.map do |ticket|
-    "Name: #{ticket.user_name}, Races: #{ticket.races}, Choices: #{ticket.choices}"
+    score = keno.check_ticket ticket
+    "Name: #{ticket.user_name}, Races: #{ticket.races}, Choices: #{ticket.choices}, Score: #{score}"
   end
   
   haml :status 

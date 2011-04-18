@@ -83,8 +83,10 @@ class Keno
   
   def check_ticket(ticket)
     payout = 0
+    
     ticket.races.each do |r| 
-      payout += ticket.get_payout @races[r] unless @races[r].nil?
+      current = ticket.get_payout @races[r] unless @races[r].nil?
+      payout += current.nil? ? 0 : current
     end
     payout
   end 
