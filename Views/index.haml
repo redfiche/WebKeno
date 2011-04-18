@@ -13,19 +13,29 @@
 	%body
 		%H1
 			%strong Keno
-		-if @new_ticket
-			%div(id='validation' class='validation')
-			%span(class='inputSpan')
-				Name:
-				%input(name='user' id='name') 
-				Number of races:
-				%input(name='numberOfRaces' id='numberOfRaces')
-		-else
-			%a(href='/newticket') Create a ticket
-		%table 
-			-(0..7).each do |row| 
-				%tr
-				-(0..9).each do |cell|
-					%td 
-						= (row * 10 + cell + 1)
-		%input(type='button' value='Save' class='submit' id='submitButton')
+		%div(id='validation' class='validation')
+		%table
+			%tr
+				%td(style="vertical-align: top; width: 175px")
+					-if @new_ticket
+						%div
+							Name:
+							%br
+							%input(name='user' id='name') 
+						%br
+						%div
+							Number of races:
+							%br
+							%input(name='numberOfRaces' id='numberOfRaces')
+						%br
+						%input(type='button' value='Save' class='submit' id='submitButton')
+					-else
+						%a(href='/newticket') Create a ticket
+				%td
+					%table(class='keno-board') 
+						-(0..7).each do |row| 
+							%tr
+							-(0..9).each do |cell|
+								%td(class='number-cell') 
+									= (row * 10 + cell + 1)
+					

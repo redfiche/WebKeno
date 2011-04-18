@@ -64,7 +64,6 @@ class Keno
   end
   
   def get_current_race
-    @logger.log "races length is #{races.length}"
     if races.length > 0 
        return races.last 
     end

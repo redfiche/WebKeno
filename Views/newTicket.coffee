@@ -1,12 +1,13 @@
 numberClicked = (event) ->
 	td = event.currentTarget
-	if $(td).hasClass('chosen')
-		$(td).removeClass('chosen')
-	else
-		if $('.chosen').size() >= 10
-			alert 'No more than ten numbers may be selected'
+	if $(td).hasClass('number-cell')
+		if $(td).hasClass('chosen')
+			$(td).removeClass('chosen')
 		else
-			$(td).addClass('chosen')
+			if $('.chosen').size() >= 10
+				alert 'No more than ten numbers may be selected'
+			else
+				$(td).addClass('chosen')
 			
 			
 ticketCreated = () -> window.location = '/'

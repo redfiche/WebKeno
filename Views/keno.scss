@@ -1,23 +1,33 @@
-table, td
+body
+{
+	background-color: black;
+	color: hsl(210, 43%, 57%);
+	margin-top: 10px;
+}
+
+td
+{
+	margin:0;
+}
+
+.keno-board
 {
 	border-color:black;
 	border-style:solid;
-	border-width:thick;
-	border-spacing:0;
-}
- td
-{
 	color:black;
 	background-color:hsl(210, 43%, 57%);
-	padding:20px;
+	padding: 0px;
 	font-size:xx-large;
 	font-family:impact;
-	margin:0;
 	text-align:center;
+	border-spacing:0;
 	
-	input
+	table, td
 	{
-		display: none;
+		border-color:black;
+		border-style:solid;
+		border-width:med;
+		padding:15px;
 	}
 }
 .chosen
@@ -28,10 +38,13 @@ table, td
 {
 	height:50px;
 	width:150px;
-	background-color:red;
+	background-color:hsl(59, 94%, 69%);
 	font-size:xx-large;
 	font-family:impact;
 	border-radius: 10px;
+	margin-top:10px;
+	border:3px solid;
+	border-coler: hsl(210, 43%, 57%)
 }
 
 .validation
