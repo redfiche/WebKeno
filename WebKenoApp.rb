@@ -2,28 +2,12 @@ require 'sinatra'
 require 'haml'
 require 'sass'
 require './keno.rb'
-require 'redis'
-require 'yaml'
 require 'json'
 require 'coffee-script'
+require './KenoSerializer.rb'
 
-@@redis = Redis.new(:host => 'localhost', :port => 6379)
+@@ks = KenoSerializer.new
 @@logger = Logger.new
-
-def get_keno
-  serialized_keno = @@redis.get "keno"
-  unless serialized_keno.nil?
-    keno = YAML::load serialized_keno
-  else
-    keno = Keno.new
-  end
-  keno
-end
-
-def set_keno(keno)
-  data = YAML::dump keno
-  @@redis.set "keno", data
-end 
 
 get '/' do
   @new_ticket = false
@@ -39,19 +23,17 @@ get '/newTicket.js' do
 end
 
 get '/next_winner.json' do
-  keno = get_keno
-  @@logger.log "#{keno.inspect}"
+  keno = @@ks.get_keno
   race = keno.get_current_race
-  next_choice = race.get_next()
-  set_keno keno
   content_type :json
-  { :race_number => race.number, :chosen => race.chosen, :current => next_choice}.to_json
+  { :race_number => race.number, :chosen => race.chosen}.to_json
 end
 
-get '/next_race' do
-  keno = get_keno
-  keno.start_race
-  set_keno keno
+get '/next_race_time.json' do
+  time = @@ks.get_next_race_time
+  @@logger.log "#{time.inspect}"
+  content_type :json
+  { :hours => time.hour, :minutes => time.min, :seconds => time.sec}.to_json
 end
 
 get '/keno.css' do
@@ -67,16 +49,16 @@ post '/newticket' do
   name = params[:name]
   choices = params[:choices].map {|choice| choice.to_i}
   how_many = params[:howMany].to_i
-  keno = get_keno
+  keno = @@ks.get_keno
   first_race = keno.next_race
   last_race = first_race + how_many - 1
   races = (first_race .. last_race).to_a
   keno.add_ticket Ticket.new name, choices, races
-  set_keno keno
+  @@ks.set_keno keno
 end
 
 get '/status' do
-  keno = get_keno
+  keno = @@ks.get_keno
   @race_results = keno.races.map do |race| 
     "Start time: #{race.start} Number: #{race.number} Winners: #{race.winners.sort}"
   end
