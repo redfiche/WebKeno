@@ -1,10 +1,10 @@
 $dark_blue: hsl(210, 53%, 39%);
-$light_blue:hsl(210, 43%, 69%); 
+$light_blue: hsl(210, 43%, 69%); 
 $yellow: #F0FC83;
 $green: hsl(66, 53%, 49%);
-$red:hsl(4, 33%, 74%); 
+$red: hsl(4, 33%, 74%); 
 
-@mixin awesome_font {
+@mixin big_font{ 
   font-weight: bold;
   font-size: xx-large;
 }
@@ -38,7 +38,7 @@ a
 
 .keno-board
 {
-  @include awesome_font;
+  @include big_font;
 	border:2px solid $dark_blue; 
 	color:black;
 	background-color: $light_blue;
@@ -58,43 +58,28 @@ a
 td.clickable:hover
 {
 	background-color: $red;
-}
-
-.chosen
-{
-	background-color: $yellow;
+  cursor: pointer;
 }
 
 .submit
 {
-  @include awesome_font;
+  @include big_font;
 	height:50px;
 	width:150px;
 	background-color:$yellow;
 	border-radius: 10px;
 	margin-top:10px;
 	border:3px solid;
-}
-
-.submit:hover
-{
-	background-color: $red;
+  &:hover
+  {
+	  background-color: $red;
+  }
 }
 
 .validation
 {
 	color:black;
 	font-size:large;
-}
-
-.inputSpan
-{
-	display:block;
-	padding-bottom:30px;
-	input
-	{
-		margin-right:20px;
-	}
 }
 
 span.status-detail
@@ -105,12 +90,7 @@ span.status-detail
 span.column-one
 {
 	float:left;
-	display:inline;
 }
 
-span.column-two
-{
-	display:inline;
-}
 
 
