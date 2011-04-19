@@ -31,6 +31,8 @@ displayTime = () ->
 		unit = ' minutes'
 		if (tillNext == 1)
 			unit = ' minute'
+	if (tillNext < 0) 
+		tillNext = 0
 	$('#time').html(tillNext + unit)
 	
 onLoad = () -> 
