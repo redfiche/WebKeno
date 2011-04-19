@@ -3,7 +3,6 @@ require 'yaml'
 require 'thread'
 
 class KenoSerializer
-  @@semaphore = Mutex.new
   
   def initialize
     @redis = Redis.new(:host => 'localhost', :port => 6379)
@@ -11,23 +10,18 @@ class KenoSerializer
   end
   
   def get_keno
-    keno = {}
-    @@semaphore.synchronize {
-      serialized_keno = @redis.get "keno"
-      unless serialized_keno.nil?
-        keno = YAML::load serialized_keno
-      else
-        keno = Keno.new
-      end
-    }
+    serialized_keno = @redis.get "keno"
+    unless serialized_keno.nil?
+      keno = YAML::load serialized_keno
+    else
+      keno = Keno.new
+    end
     keno
   end
 
   def set_keno(keno)
-    @@semaphore.synchronize {
-      data = YAML::dump keno
-      @redis.set "keno", data
-    }
+    data = YAML::dump keno
+    @redis.set "keno", data
   end 
   
   def del_keno
