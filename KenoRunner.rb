@@ -4,7 +4,7 @@ require './Keno.rb'
 require './KenoSerializer.rb'
 
 puts "#{DateTime.now} starting KenoRunner"
-logger = Logger.new
+logger = Logger.new 'keno.log'
 keno = Keno.new
 serializer = KenoSerializer.new
 serializer.del_keno

@@ -26,9 +26,7 @@ class KenoSerializer
   end 
   
   def del_keno
-    @@semaphore.synchronize {
-      @redis.del "keno"
-    }
+     @redis.del "keno"
   end
   
   def set_next_race_time(time)
