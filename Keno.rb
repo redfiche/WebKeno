@@ -58,12 +58,7 @@ class Keno
   end
   
   def get_current_race
-    if races.length > 0 
-       return races.last 
-    end
-    @logger.info "starting race"
-    race = start_race
-    race
+    return races.last 
   end
   
   
