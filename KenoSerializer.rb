@@ -45,11 +45,13 @@ class KenoSerializer
     users = @redis.get "users"
     if users.nil? then
       users = []
+    end
     users.push user
     @redis.set "users", YAML::dump(users)
     the_user = @redis.get user
     if the_user.nil? then 
       @redis.set user, YAML::dump([])
+    end
   end
   
   def add_ticket(ticket)

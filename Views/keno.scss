@@ -61,6 +61,11 @@ td.clickable:hover
   cursor: pointer;
 }
 
+td.chosen
+{
+	background-color: $yellow;
+}
+
 .submit
 {
   @include big_font;
