@@ -1,12 +1,6 @@
 require 'date'
 require 'set'
 
-class Logger
-  def log(message)
-    File.open("keno.log", 'a') {|f| f.write("#{DateTime.now} #{message} \n\n\n")}
-  end
-end
-
 class Race
   @@next_race_number = 1
   attr_accessor :winners, :start, :number, :chosen
@@ -60,14 +54,14 @@ class Keno
     @races = []
     @next_race = 0
     @tickets = []
-    @logger = Logger.new
+    @logger = Logger.new 'keno.log'
   end
   
   def get_current_race
     if races.length > 0 
        return races.last 
     end
-    @logger.log "starting race"
+    @logger.info "starting race"
     race = start_race
     race
   end

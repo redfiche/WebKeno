@@ -1,8 +1,20 @@
+$dark_blue: hsl(210, 53%, 39%);
+$light_blue: hsl(210, 43%, 69%); 
+$yellow: #F0FC83;
+$green: hsl(66, 53%, 49%);
+$red: hsl(4, 33%, 74%); 
+
+@mixin big_font{ 
+  font-weight: bold;
+  font-size: xx-large;
+}
+
 body
 {
-	background-color: hsl(210, 53%, 39%);
-	color: hsl(66, 53%, 49%);
+	background-color: $dark_blue; 
+	color: $green;
 	margin-top: 10px;
+  font-family: 'Helvetica Neue';
 	
 	.label
 	{
@@ -11,84 +23,63 @@ body
 	}
 }
 
-a:link, a:visited 
-{
-	color: hsl(66, 53%, 49%);
-	text-decoration:underline;
-}
+h1 {margin: 0px}
 
-a:hover, a:active
+a
 {
-	color: hsl(4, 33%, 74%);
-}
-
-td
-{
-	margin:0;
+  &:link, &:visited { 
+	  color: $green;
+  	text-decoration:underline;
+  }
+  &:hover, &:active {
+    color: hsl(4, 33%, 74%);
+  }
 }
 
 .keno-board
 {
-	border-color:hsl(210, 53%, 39%);
-	border-style:solid;
+  @include big_font;
+	border:2px solid $dark_blue; 
 	color:black;
-	background-color:hsl(210, 43%, 69%);
+	background-color: $light_blue;
 	padding: 0px;
-	font-size:xx-large;
-	font-family:impact;
 	text-align:center;
 	border-spacing:0;
 	
 	table, td
 	{
-		border-color:hsl(210, 53%, 39%);
-		border-style:solid;
-		border-width:med;
+		border-color: $dark_blue;
+		border-style: solid;
+		border-width: medium;
 		padding:15px;
 	}
 }
 
 td.clickable:hover
 {
-	background-color: hsl(4, 33%, 74%);
-}
-
-.chosen
-{
-	background-color:#F0FC83;
+	background-color: $red;
+  cursor: pointer;
 }
 
 .submit
 {
+  @include big_font;
 	height:50px;
 	width:150px;
-	background-color:#F0FC83;
-	font-size:xx-large;
-	font-family:impact;
+	background-color:$yellow;
 	border-radius: 10px;
 	margin-top:10px;
 	border:3px solid;
-}
-
-.submit:hover
-{
-	background-color: hsl(4, 33%, 74%);
+  &:hover
+  {
+	  background-color: $red;
+  }
 }
 
 .validation
 {
 	color:black;
 	font-size:large;
-}
-
-.inputSpan
-{
-	display:block;
-	padding-bottom:30px;
-	input
-	{
-		margin-right:20px;
-	}
 }
 
 span.status-detail
@@ -99,12 +90,7 @@ span.status-detail
 span.column-one
 {
 	float:left;
-	display:inline;
 }
 
-span.column-two
-{
-	display:inline;
-}
 
 

@@ -1,12 +1,13 @@
 require 'redis'
 require 'yaml'
 require 'thread'
+require 'logger'
 
 class KenoSerializer
   
   def initialize
     @redis = Redis.new(:host => 'localhost', :port => 6379)
-    @logger = Logger.new
+    @logger = ::Logger.new 'keno.log'
   end
   
   def get_keno

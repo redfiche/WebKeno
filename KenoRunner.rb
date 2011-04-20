@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+
 require './Keno.rb'
 require './KenoSerializer.rb'
 

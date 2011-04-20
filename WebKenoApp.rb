@@ -7,7 +7,7 @@ require 'coffee-script'
 require './KenoSerializer.rb'
 
 @@ks = KenoSerializer.new
-@@logger = Logger.new
+@@logger = Logger.new 'keno.log'
 
 get '/' do
   @new_ticket = false
@@ -31,7 +31,7 @@ end
 
 get '/next_race_time.json' do
   time = @@ks.get_next_race_time
-  @@logger.log "#{time.inspect}"
+  @@logger.info "#{time.inspect}"
   content_type :json
   { :hours => time.hour, :minutes => time.min, :seconds => time.sec}.to_json
 end
