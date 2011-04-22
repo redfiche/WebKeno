@@ -25,13 +25,14 @@ end
 get '/next_winner.json' do
   keno = @@ks.get_keno
   race = keno.get_current_race
+  if race.nil? then return nil end
   content_type :json
   { :race_number => race.number, :chosen => race.chosen}.to_json
 end
 
 get '/next_race_time.json' do
   time = @@ks.get_next_race_time
-  @@logger.info "#{time.inspect}"
+  if time.nil? then return nil end
   content_type :json
   { :hours => time.hour, :minutes => time.min, :seconds => time.sec}.to_json
 end
@@ -50,11 +51,10 @@ post '/newticket' do
   choices = params[:choices].map {|choice| choice.to_i}
   how_many = params[:howMany].to_i
   keno = @@ks.get_keno
-  first_race = keno.next_race
+  first_race = keno.nil? ? 0 : keno.next_race
   last_race = first_race + how_many - 1
   races = (first_race .. last_race).to_a
-  keno.add_ticket Ticket.new name, choices, races
-  @@ks.set_keno keno
+  @@ks.add_ticket Ticket.new name, choices, races
 end
 
 get '/status' do
@@ -63,9 +63,16 @@ get '/status' do
     "Start time: #{race.start} Number: #{race.number} Winners: #{race.winners.sort}"
   end
   
-  @ticket_results = keno.tickets.map do |ticket|
-    score = keno.check_ticket ticket
-    "Name: #{ticket.user_name}, Races: #{ticket.races}, Choices: #{ticket.choices}, Score: #{score}"
+  results = {}
+  users = @@ks.get_users
+  users.each do |name, tickets|
+    score = tickets.inject(0) {|sum, ticket| sum + keno.check_ticket(ticket)}
+    results.merge!({:name => name, :score => score})
+  end
+  results = results.sort_by {|result| result.score}
+  
+  @ticket_results = results.map do |result|
+    "Name: #{result.name}, Score: #{result.score}"
   end
   
   haml :status 

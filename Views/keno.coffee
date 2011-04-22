@@ -7,6 +7,8 @@ color = (choice) ->
 	$('.keno-board').find('td:eq(' + (choice - 1) + ')').addClass('chosen')
 		
 processChosen = (status) ->
+	if not status.race_number?
+		return
 	if (status.race_number != raceNumber)
 		$('td').removeClass('chosen')
 		raceNumber = status.race_number
@@ -14,10 +16,11 @@ processChosen = (status) ->
 	color choice for choice in status.chosen
 	
 setTime = (time) ->
-	raceTime = new Date()
-	raceTime.setHours(time.hours)
-	raceTime.setMinutes(time.minutes)
-	raceTime.setSeconds(time.seconds)
+	if time?
+		raceTime = new Date()
+		raceTime.setHours(time.hours)
+		raceTime.setMinutes(time.minutes)
+		raceTime.setSeconds(time.seconds)
 	
 getChosen = () ->
 	$.get('/next_winner.json', processChosen)
@@ -33,7 +36,10 @@ displayTime = () ->
 			unit = ' minute'
 	if (tillNext < 0) 
 		tillNext = 0
-	$('#time').html(tillNext + unit)
+	if tillNext
+		$('#time').html(tillNext + unit)
+	else
+		$('#time').html("unknown")
 	
 onLoad = () -> 
 	getChosen()

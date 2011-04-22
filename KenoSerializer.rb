@@ -36,15 +36,16 @@ class KenoSerializer
   
   def get_next_race_time
     next_race = @redis.get "next"
-    YAML::load next_race
+    YAML::load(next_race) unless next_race.nil?
   end
   
   def add_user(user)
     users = @redis.get "users"
+    users = YAML::load(users) unless users.nil?
     if users.nil? then
-      users = []
+      users = Set.new
     end
-    users.push user
+    users.add user
     @redis.set "users", YAML::dump(users)
     the_user = @redis.get user
     if the_user.nil? then 
@@ -56,6 +57,11 @@ class KenoSerializer
     add_user ticket.user_name
     tickets = YAML::load(@redis.get(ticket.user_name))
     tickets.push ticket
-    @redis.set ticket.user_name, YAML::dump(ticket)
+    @redis.set ticket.user_name, YAML::dump(tickets)
+  end
+  
+  def get_users
+    users = YAML::load(@redis.get "users")
+    users.inject(Hash.new) {|hsh, user| hsh.merge!({user => YAML::load(redis.get(user))})}
   end
 end
