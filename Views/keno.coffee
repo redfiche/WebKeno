@@ -5,6 +5,14 @@ raceTime = 0
 
 color = (choice) ->
 	$('.keno-board').find('td:eq(' + (choice - 1) + ')').addClass('chosen')
+	
+updateLeaders = (leaders) ->
+	leaderDiv = $('#leaderboard')
+	leaderDiv.html("")
+	for leader in leaders
+		do (leader) ->
+			html = "<p>" + leader + "</p>"
+			leaderDiv.append(html) 
 		
 processChosen = (status) ->
 	if not status.race_number?
@@ -12,6 +20,7 @@ processChosen = (status) ->
 	if (status.race_number != raceNumber)
 		$('td').removeClass('chosen')
 		raceNumber = status.race_number
+		$.get('/leaders.json', updateLeaders)
 	$('#race-number').html(status.race_number);
 	color choice for choice in status.chosen
 	
@@ -45,6 +54,7 @@ onLoad = () ->
 	getChosen()
 	interval = setInterval(getChosen, 5000)
 	setInterval(displayTime, 500)
+	$.get('/leaders.json', updateLeaders)
 	
 $(document).ready ->
 	onLoad();

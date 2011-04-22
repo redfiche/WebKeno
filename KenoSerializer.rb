@@ -60,8 +60,19 @@ class KenoSerializer
     @redis.set ticket.user_name, YAML::dump(tickets)
   end
   
-  def get_users
+  def get_score(tickets)
+    keno = get_keno
+     tickets.inject(0) {|score, ticket| score += keno.check_ticket(ticket)}
+  end
+   
+  def get_user_scores
     users = YAML::load(@redis.get "users")
-    users.inject(Hash.new) {|hsh, user| hsh.merge!({user => YAML::load(redis.get(user))})}
+    scores = users.inject(Hash.new) do |hsh, user| 
+      rawTickets = @redis.get user
+      tickets = YAML::load rawTickets
+      score = get_score tickets
+      hsh.merge!({user => score})
+    end
+    scores.sort_by { |k,v| -v}
   end
 end

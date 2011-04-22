@@ -57,23 +57,28 @@ post '/newticket' do
   @@ks.add_ticket Ticket.new name, choices, races
 end
 
+get '/leaders.json' do
+  content_type :json
+  get_leaders().to_json
+end
+
+def get_leaders
+  scores = @@ks.get_user_scores
+  @@logger.info "scores: #{scores}"
+  leaders = Array.new
+  scores.each do |tuple|
+    leaders.push "#{tuple[0]}:  #{tuple[1]}"
+  end
+  leaders
+end
+
 get '/status' do
   keno = @@ks.get_keno
   @race_results = keno.races.map do |race| 
     "Start time: #{race.start} Number: #{race.number} Winners: #{race.winners.sort}"
   end
   
-  results = {}
-  users = @@ks.get_users
-  users.each do |name, tickets|
-    score = tickets.inject(0) {|sum, ticket| sum + keno.check_ticket(ticket)}
-    results.merge!({:name => name, :score => score})
-  end
-  results = results.sort_by {|result| result.score}
-  
-  @ticket_results = results.map do |result|
-    "Name: #{result.name}, Score: #{result.score}"
-  end
+  @ticket_results = get_leaders
   
   haml :status 
 end  
